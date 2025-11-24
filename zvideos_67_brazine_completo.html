@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zvideos67brazine — Notícias</title>
+  <style>
+    :root{--accent:#d31b1b;--muted:#666}
+    body{font-family:Inter, Arial, sans-serif;margin:0;background:#fff;color:#111}
+    .site{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #eee}
+    header img{height:56px}
+    header h1{margin:0;font-size:20px}
+    main{padding:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .card{border:1px solid #eee;padding:14px;border-radius:8px;background:#fafafa}
+    .card img{max-width:100%;border-radius:6px}
+    .btn{display:inline-block;padding:8px 12px;background:var(--accent);color:#fff;text-decoration:none;border-radius:6px;margin-top:8px}
+    .back{display:inline-block;margin-bottom:18px;color:var(--muted);text-decoration:none}
+    h2{margin:0 0 8px}
+    .sugestoes{margin-top:30px;border-top:1px solid #eee;padding-top:18px}
+    .sugestao{display:flex;gap:12px;align-items:center;padding:8px 0}
+    .sugestao img{width:84px;height:56px;object-fit:cover;border-radius:6px}
+    footer{padding:20px;text-align:center;color:var(--muted);font-size:14px}
+
+    /* mobile tweaks */
+    @media(max-width:520px){header h1{font-size:16px}}
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <!-- caminho local da logo (já enviada no ambiente): -->
+      <img src='/mnt/data/A_logo_design_features_the_word_"ZVIDEOS"_in_bold,.png' alt='Logo Zvideos'>
+      <div>
+        <h1>Zvideos67brazine</h1>
+        <div style="color:var(--muted);font-size:13px">Notícias e variações</div>
+      </div>
+    </header>
+
+    <main id="app">
+      <!-- conteúdo renderizado por JS -->
+    </main>
+
+    <footer>
+      © Zvideos67brazine — 2025
+    </footer>
+  </div>
+
+  <script>
+    // Base de notícias (edite aqui). Cada item tem id, título, resumo, texto completo e imagem.
+    const posts = [
+      {
+        id: '1',
+        title: 'Notícia 1 — Exemplo',
+        thumb: 'https://via.placeholder.com/800x450?text=Not%C3%ADcia+1',
+        excerpt: 'Resumo curto da notícia 1. Clique para ler a matéria completa.',
+        content: '<p>Texto completo da notícia 1. Aqui você escreve a matéria inteira. Pode incluir <strong>negrito</strong>, listas e tudo mais.</p>'
+      },
+      {
+        id: '2',
+        title: 'Notícia 2 — Exemplo',
+        thumb: 'https://via.placeholder.com/800x450?text=Not%C3%ADcia+2',
+        excerpt: 'Resumo curto da notícia 2. Clique para ler a matéria completa.',
+        content: '<p>Texto completo da notícia 2. Exemplo de conteúdo.</p>'
+      },
+      {
+        id: '3',
+        title: 'Notícia 3 — Exemplo',
+        thumb: 'https://via.placeholder.com/800x450?text=Not%C3%ADcia+3',
+        excerpt: 'Resumo curto da notícia 3. Clique para ler a matéria completa.',
+        content: '<p>Texto completo da notícia 3. Exemplo de conteúdo.</p>'
+      }
+    ];
+
+    // Renderiza a página inicial com lista de notícias
+    function renderHome(){
+      document.title = 'Zvideos67brazine — Notícias';
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <h2>Últimas notícias</h2>
+        <div class="grid">
+          ${posts.map(p=>`
+            <article class="card">
+              <h3>${escapeHtml(p.title)}</h3>
+              <img src="${p.thumb}" alt="${escapeHtml(p.title)}">
+              <p style="color:var(--muted)">${escapeHtml(p.excerpt)}</p>
+              <a class="btn" href="#post-${p.id}">Ler notícia completa</a>
+            </article>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Renderiza a página de uma notícia (post view)
+    function renderPost(id){
+      const post = posts.find(x=>x.id===id);
+      if(!post){ renderHome(); return; }
+      document.title = post.title + ' — Zvideos67brazine';
+      const others = posts.filter(x=>x.id!==id);
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <a class="back" href="#">← Voltar</a>
+        <div class="card" style="margin-top:6px">
+          <h2>${escapeHtml(post.title)}</h2>
+          <img src="${post.thumb}" alt="${escapeHtml(post.title)}">
+          <div style="margin-top:12px">${post.content}</div>
+        </div>
+
+        <div class="sugestoes">
+          <h3>Você também pode gostar</h3>
+          ${others.map(o=>`
+            <div class="sugestao">
+              <img src="${o.thumb}" alt="${escapeHtml(o.title)}">
+              <div>
+                <a href="#post-${o.id}" style="font-weight:700">${escapeHtml(o.title)}</a>
+                <div style="color:var(--muted);font-size:13px">${escapeHtml(o.excerpt)}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Trata mudanças na hash da URL (ex: #post-1)
+    function handleHash(){
+      const hash = location.hash || '';
+      if(hash.startsWith('#post-')){
+        const id = hash.replace('#post-','');
+        renderPost(id);
+      } else {
+        renderHome();
+      }
+    }
+
+    // Pequena função para escapar HTML em títulos/trechos
+    function escapeHtml(str){
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Inicializa
+    window.addEventListener('hashchange', handleHash);
+    window.addEventListener('load', handleHash);
+
+    // Exemplo: addPost manual via console (opcional)
+    // window.addPost = function(titulo, resumo, imagem, html){ posts.unshift({id:Date.now().toString(),title:titulo,thumb:imagem,excerpt:resumo,content:html}); renderHome(); }
+  </script>
+</body>
+</html>
