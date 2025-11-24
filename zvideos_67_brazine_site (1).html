@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zvideos 67brazine — Notícias</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff; /* fundo branco */
+      color: #222;
+    }
+    header {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .post {
+      border: 1px solid #eee;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #fafafa;
+    }
+    .post img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    .add-box {
+      border: 2px dashed #bbb;
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      background: #fdfdfd;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 14px;
+      font-size: 16px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <img src="/mnt/data/A_logo_design_features_the_word_\"ZVIDEOS\"_in_bold.png" alt="Logo Zvideos" style="height:48px;">
+        <div>
+          <h1 style="margin:0;">Zvideos 67brazine</h1>
+          <p style="margin:0;">Portal de Notícias Simples</p>
+        </div>
+      </div>
+    </header>
+
+  <div class="container">
+
+    <!-- Caixa para adicionar notícias sem saber programar -->
+    <div class="add-box">
+      <h2>Adicionar notícia</h2>
+      <input id="titulo" placeholder="Título da notícia" />
+      <textarea id="texto" placeholder="Texto da notícia"></textarea>
+      <input id="imagem" placeholder="URL da imagem (link da foto)" />
+      <button onclick="addPost()">Publicar notícia</button>
+    </div>
+
+    <div id="posts"></div>
+  </div>
+
+  <script>
+    function addPost() {
+      const titulo = document.getElementById('titulo').value;
+      const texto = document.getElementById('texto').value;
+      const imagem = document.getElementById('imagem').value;
+      const area = document.getElementById('posts');
+
+      if (!titulo || !texto) {
+        alert('Escreva pelo menos título e texto.');
+        return;
+      }
+
+      const bloco = document.createElement('div');
+      bloco.className = 'post';
+      bloco.innerHTML = `
+        <h3>${titulo}</h3>
+        <p>${texto}</p>
+        ${imagem ? `<img src="${imagem}" alt="imagem da notícia">` : ''}
+      `;
+
+      area.prepend(bloco);
+
+      document.getElementById('titulo').value = '';
+      document.getElementById('texto').value = '';
+      document.getElementById('imagem').value = '';
+    }
+  </script>
+</body>
+</html>
